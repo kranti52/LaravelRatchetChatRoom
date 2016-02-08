@@ -1,0 +1,16 @@
+/vendor
+/node_modules
+artisan
+.gitattributes
+.bowerrc
+.env.example
+composer.lock
+php_errors.log
+phpunit.xml
+redis.conf
+server.js
+socket.js
+Homestead.yaml
+Homestead.json
+.env
+/tests
