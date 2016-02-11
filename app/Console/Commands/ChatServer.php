@@ -9,19 +9,17 @@ use Ratchet\WebSocket\WsServer;
 use App\Classes\Sockets\Chat;
 class ChatServer extends Command {
 	/**
-	 * The console command name.
+	 * The command name.
 	 *
-	 * @var string
 	 */
-	protected $name = 'chat:serve';
+	protected $name = 'chat:start';
 	/**
-	 * The console command description.
+	 * The command description.
 	 *
-	 * @var string
 	 */
-	protected $description = 'Start chat server.';
+	protected $description = 'Start my chatroom server';
 	/**
-	 * Create a new command instance.
+	 * Create a new instance of command.
 	 *
 	 * @return void
 	 */
@@ -50,16 +48,6 @@ class ChatServer extends Command {
 	    $server->run();
 	}
 	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return [
-		];
-	}
-	/**
 	 * Get the console command options.
 	 *
 	 * @return array
@@ -67,7 +55,7 @@ class ChatServer extends Command {
 	protected function getOptions()
 	{
 		return [
-			['port', 'p', InputOption::VALUE_OPTIONAL, 'Port where to launch the server.', 8082],
+			['port','port_no',InputOption::VALUE_OPTIONAL, 'Port number where to launch the server.', 8082],
 		];
 	}
 }

@@ -8,9 +8,7 @@ class Chat implements MessageComponentInterface {
         $this->clients = new \SplObjectStorage;
     }
     public function onOpen(ConnectionInterface $conn) {
-        // Store the new connection to send messages to later
         $this->clients->attach($conn);
-        //$this->clients->send($username);
         echo "New connection! ({$conn->resourceId})\n";
     }
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -20,17 +18,8 @@ class Chat implements MessageComponentInterface {
         $data=json_decode($msg);
         if($data->status=='ping')
         {
-            /*$user_present=\App\ChatOnlineUser::where('connection_resource_id','=',$from->resourceId)->firstOrFail();
-            if(count($user_present))
-            {
-                
-                $this->clients->detach($from);
-            }
-            else
-            {*/
-                $data->status=='pong';
-                $from->send(json_encode($data));
-            //}
+            $data->status=='pong';
+            $from->send(json_encode($data));
             
         }
         
@@ -79,32 +68,16 @@ class Chat implements MessageComponentInterface {
         $this->clients->detach($conn);
         $disconnected_user=\App\ChatOnlineUser::where('connection_resource_id','=',$conn->resourceId)->first();
         $data=array('status'=>'close','username'=>$disconnected_user->username,'name'=>$disconnected_user->name);
-        print_r($data);
         \App\ChatOnlineUser::where('connection_resource_id','=',$conn->resourceId)->delete();
-        foreach ($this->clients as $client) {
-                //if ($from !== $client) {
-                    $client->send(json_encode($data));
-                //}
-            }
         echo "Connection {$conn->resourceId} has disconnected\n";
+        foreach ($this->clients as $client) {
+                if ($from !== $client) {
+                    $client->send(json_encode($data));
+                }
+            }
     }
     public function onError(ConnectionInterface $conn, \Exception $e) {
         echo "An error has occurred: {$e->getMessage()}\n";
         $conn->close();
     }
-    
-    /*public function send($status,$data)
-    {
-        
-    }
-    
-    public function getAllMessages()
-    {
-        
-    }
-    
-    public function onlineUsers()
-    {
-        
-    }*/
 }

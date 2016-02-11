@@ -61,27 +61,11 @@
                 {!!Form::button('Sign In',['class'=>'form-control','type'=>'submit'])!!}
               </div>
               <div class="col-md-12">
-                  <!--<span class="col-md-8 text-left">{!!Form::checkbox('remember','on',false,['class'=>'form-control pull-left','style'=>"float:none",'type'=>'submit'])!!}{!!Form::label('remember','Remember me',['class'=>'pull-right'])!!}<!--<label><input type="checkbox" id="remember_me_checkbox" value="">Remember me</label>--></span>
-                    <!--<input type="checkbox" class="text-left" id="remember_me"><label for="remember_me">Remember me</label>-->
-                  <!--<span class="col-md-4"></span>-->
-                  <span class="pull-right col-md-4" data-toggle="modal" data-target="#reset_modal">Forgot Password?</span>
+                  <span class="pull-right col-md-4" id='forgot_password' data-toggle="modal" data-target="#reset_modal">Forgot Password?</span>
               </div>
               <p>Not a member? <span id="register_redirect_button" onclick='registerDivShow();'>Sign Up</span></p>
         </div>
     {!!Form::close()!!}
-    <!--<div class="box">
-      <h1>Login</h1>
-      <input type="text" placeholder="Username"/>
-      <input type="text" placeholder="Password"/>
-      <button>Login</button>
-      <div class="col-md-12">
-          <!--<span class="col-md-8 text-left"><label><input type="checkbox" id="remember_me_checkbox" value="">Remember me</label></span>
-            <!--<input type="checkbox" class="text-left" id="remember_me"><label for="remember_me">Remember me</label>-->
-          <!--<span class="col-md-4"></span>-->
-          <!--<span class="pull-right col-md-4">Forgot Password?</span>
-      </div>
-      <p>Not a member? <span id="register_redirect_button" onclick='registerDivShow();'>Sign Up</span></p>
-    </div>-->
   </div>
 </div>
 </div>
@@ -132,19 +116,6 @@
         <p>Already a member? <span id="login_redirect_button" onclick="loginDivShow();">Sign In</span></p>
     </div>
     {!!Form::close()!!}
-
-    <!--<form method='POST' action="{{action('Auth\AuthController@register')}}">
-        <div class="box">
-          <h1>Sign Up</h1>
-          <input type="text" name="name" placeholder="Please Enter Your Full Name"/>
-          <input type="email" name="email" placeholder="Please Enter your Email ID"/>
-          <input type="text" name="username" placeholder="Please Choose your Username"/>
-          <input type="password" name="password" placeholder="Please Enter Password"/>
-          <input type="password" name="confirm_password" placeholder="Please Confirm Password"/>
-          <button>Sign up</button>
-          <p>Already a member? <span id="login_redirect_button" onclick="loginDivShow();">Sign In</span></p>
-        </div>
-    </form>-->
   </div>
 </div>
 </div>
@@ -156,11 +127,24 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Change Password</h4>
       </div>
+      @if (count($errors->forgot_password) > 0)
+        <div id='errors'>
+            
+                <div class="alert">
+                    <ul>
+                        @foreach ($errors->forgot_password->all() as $error)
+                            <li class="alert alert-danger">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            
+        </div>
+      @endif
        {!!Form::open(['method'=>'POST','action'=>'Auth\PasswordController@postEmail'])!!}
       <div class="modal-body">
         <div class="form-group">
          
-          {!! Form::input('text','email',null,['class'=>'form-control','placeholder'=>"Please Enter your Email ID"])!!}
+          {!! Form::input('text','reset_email',null,['class'=>'form-control','placeholder'=>"Please Enter your Email ID"])!!}
         </div>
       </div>
       <div class="modal-footer">
@@ -181,7 +165,15 @@
         $('div.alert').delay(2000).slideUp();
     });
 </script>
-@else  
+@elseif (count($errors->forgot_password)>0)
+<script>
+    $('document').ready(function(){
+        $('#forgot_password').click();
+        $('div.alert').delay(2000).slideUp();
+    });
+     
+</script>
+@else
 <script>
     $('document').ready(function(){
         $('#register_div').hide();

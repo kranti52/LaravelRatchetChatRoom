@@ -50,22 +50,20 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+     
     public function register(RegisterRequest $request)
     {
         $rqst=new rqst();
         $data=$request->all();
         $data['password']=bcrypt($data['password']);
+      
         $users=User::Create($data);
-        //return var_dump($users);
         if(\Auth::attempt(['username'=>$data['username'],'password'=>$request->get('password')]))
         {
             User::where('id','=',\Auth::user()->id)->update(array('logged_in'=>'1'));
             \Flash::message('You are successfully registered.');
             return \Redirect::action('HomeController@dashboard');//,compact('users'));
         }
-        return 'not working';
-        
-       
     }
     
     /**

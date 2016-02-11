@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'remote@chatroom.com', 'name' => 'Dynamic Chatroom'],
 
     /*
     |--------------------------------------------------------------------------

@@ -12,7 +12,6 @@ class RegisterRequest extends Request
      * @return bool
      */
     protected $errorBag='register';
-    //protected $dontFlash = ['password','confirm_password'];
     public function authorize()
     {
         return true;
@@ -27,11 +26,10 @@ class RegisterRequest extends Request
     {
         return [
             'name'=>'required|max:255|min:6',
-            'email'=>'required|email',
-            'username'=>'required',
+            'email'=>'required|email|unique:users,email,email',
+            'username'=>'required|unique:users,username,username',
             'password'=>'required|confirmed',
             'password_confirmation'=>'required_with:password',
-            //
         ];
     }
 }

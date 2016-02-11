@@ -31,10 +31,12 @@ Route::post('/auth/login','Auth\AuthController@login');*/
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'GuestController@open');
     Route::get('/home', 'GuestController@home');
-    Route::post('password/email', 'Auth\PasswordController@postEmail');
+    //Route::post('password/email', 'Auth\PasswordController@postEmail');
     Route::post('/auth/register','Auth\AuthController@register');
     Route::post('/auth/login','Auth\AuthController@login');
     Route::get('/dashboard','HomeController@dashboard');
     Route::get('/auth/logout', 'Auth\AuthController@logout');
-    //
+    Route::controllers([
+        'password' => 'Auth\PasswordController',
+    ]);
 });
